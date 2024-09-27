@@ -1,0 +1,19 @@
+
+    
+
+<div class="flex w-full items-start gap-6 mt-32">
+    <div class="w-3/4">
+        @if (cartService.cart() !== null) {
+            @for (ite of cartService.cart()?.items; track ite.id) {
+                <app-cart-item [item]="ite"></app-cart-item>
+            }
+        } @else {
+            <app-emty-cart></app-emty-cart>
+        }   
+    </div>
+    <div class="w-1/4">
+        <app-order-summary></app-order-summary>
+    </div>
+</div>
+
+    
