@@ -49,4 +49,12 @@
         }
     </div>
     
-} 
+}  @else { 
+    <app-emty-state
+    message="No products match this filter"
+    icon="filter_alt_off"
+    actionText="Reset filters"
+    (action)="resetFilters()">
+
+    </app-emty-state>
+}

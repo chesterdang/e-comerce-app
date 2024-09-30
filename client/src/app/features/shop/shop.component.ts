@@ -15,6 +15,8 @@ import { FormsModule } from '@angular/forms';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { RouterLink } from '@angular/router';
+import { CartItemComponent } from "../cart/cart-item/cart-item.component";
+import { EmptyStateComponent } from '../../shared/components/emty-state/emty-state.component';
 
 @Component({
   selector: 'app-shop',
@@ -23,11 +25,12 @@ import { RouterLink } from '@angular/router';
     MatCard,
     ProductItemComponent,
     FiltersDialogComponent,
-    MatIcon,MatButton,MatListOption,
+    MatIcon, MatButton, MatListOption,
     FormsModule, MatMenuTrigger,
     MatMenu, MatSelectionList,
     MatListOption, MatPaginator,
-    MatIconButton
+    MatIconButton, FormsModule, 
+    CartItemComponent, EmptyStateComponent
 ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'
@@ -43,6 +46,10 @@ export class ShopComponent implements OnInit{
     {name: 'Price: High-Low', value: 'priceDesc'}
   ]
 
+  resetFilters() {
+    this.shopParams = new ShopParams();
+    this.getProducts();
+  }
   ngOnInit(): void {
     this.shopService.getBrands();
     this.shopService.getTypes();

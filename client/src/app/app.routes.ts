@@ -14,7 +14,7 @@ import { emptyGuard } from './core/guard/empty.guard';
 import { CheckoutSuccessComponent } from './features/checkout/checkout-success/checkout-success.component';
 import { OrderComponent } from './features/order/order.component';
 import { OrderDetailComponent } from './features/order/order-detail/order-detail.component';
-import { orderCompleteGuard } from './core/guards/order-complete.guard';
+import { orderCompleteGuard } from './core/guard/order-complete.guard';
 export const routes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'shop', component: ShopComponent},

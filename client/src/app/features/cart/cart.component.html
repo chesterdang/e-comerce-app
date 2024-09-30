@@ -8,7 +8,10 @@
                 <app-cart-item [item]="ite"></app-cart-item>
             }
         } @else {
-            <app-emty-cart></app-emty-cart>
+            <app-emty-state 
+            message="Your cart is empty" actionText="Go shopping!" (action)="onAction()" icon="remove_shopping_cart">
+        
+            </app-emty-state>
         }   
     </div>
     <div class="w-1/4">

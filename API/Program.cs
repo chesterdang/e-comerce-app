@@ -4,6 +4,7 @@ using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 
@@ -27,9 +28,14 @@ builder.Services.AddSingleton<IShoppingCartService,ShoppingCartService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<AppUser>()
+        .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<StoreContext>();
+
+
 builder.Services.AddScoped<IPaymentService,PaymentService>();
 builder.Services.AddSignalR();
 var app = builder.Build();
@@ -51,9 +57,9 @@ try
     using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<StoreContext>();
-
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
     await context.Database.MigrateAsync();
-    await StoreContextSeedData.SeedAsync(context);
+    await StoreContextSeedData.SeedAsync(context, userManager);
 }
 catch (Exception ex)
 {
