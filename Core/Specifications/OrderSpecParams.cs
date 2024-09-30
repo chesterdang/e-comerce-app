@@ -7,6 +7,6 @@ namespace Core.Specifications
 {
     public class OrderSpecParams : PagingParam
     {
-        public string? status { get; set; }
+        public string? Status { get; set; }
     }
 }

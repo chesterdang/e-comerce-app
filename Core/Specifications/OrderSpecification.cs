@@ -30,6 +30,15 @@ namespace Core.Specifications
             AddInclude("DeliveryMethod");
         }
 
-       
+        // public OrderSpecification(OrderSpecParams specParams) : base( x => ()
+        //     )
+        // })
+        // {
+            
+        // }
+
+        // private static OrderStatus? ParseStatus(string status) {
+        //     if (Enum.TryParse<OrderStatus>(status, true, out var result)) return result;
+        // }
     }
 }
