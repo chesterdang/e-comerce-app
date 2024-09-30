@@ -13,12 +13,8 @@ jobs:
   build:
     runs-on: windows-latest
 
-    env: 
-      PROJECT_PATH: ./API
-
     steps:
       - uses: actions/checkout@v4
-
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
@@ -26,10 +22,10 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build ${{env.PROJECT_PATH}} --configuration Release
+        run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ${{env.PROJECT_PATH}} -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -57,4 +53,4 @@ jobs:
           app-name: 'skinet-deploy'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8DDC05791DEB48A4B20C3715758D1C36 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B472CC5981B946829F5385DD1A18B7BD }}
