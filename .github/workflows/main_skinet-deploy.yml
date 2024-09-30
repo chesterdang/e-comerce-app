@@ -53,4 +53,4 @@ jobs:
           app-name: 'skinet-deploy'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B472CC5981B946829F5385DD1A18B7BD }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8FA5346E585348A6B28E088A89B512E3 }}
