@@ -1,4 +1,7 @@
-name: Build and deploy ASP.Net Core app to Azure Web App - skinet-course
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy ASP.Net Core app to Azure Web App - skinet-deploy
 
 on:
   push:
@@ -10,25 +13,8 @@ jobs:
   build:
     runs-on: windows-latest
 
-    env:
-      PROJECT_PATH: ./API
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-
-      - name: Install Angular CLI
-        run: npm install -g @angular/cli@18
-
-      - name: Install deps and build angular app
-        run: |
-          cd client
-          npm install
-          ng build
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
@@ -53,27 +39,18 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-
+    
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
       
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_989246943D0044F8B8817BEB6A916B09 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C1B1A60CB0914793A0A171889FEAD13D }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_8F6B233C777A4785BD6142BC5044A2D5 }}
-
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'skinet-course'
+          app-name: 'skinet-deploy'
           slot-name: 'Production'
           package: .
-          
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9A3D07E4747D46D3B828596E4BF8859C }}
