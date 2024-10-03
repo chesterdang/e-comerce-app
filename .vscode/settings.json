@@ -1,3 +1,5 @@
 {
-    "explorer.compactFolders": false
+    "explorer.compactFolders": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/afe8bf59-381e-437d-8c94-d1ad35d3b18f/resourceGroups/skinet/providers/Microsoft.Web/sites/skinet-deploy",
+    "appService.deploySubpath": "."
 }
