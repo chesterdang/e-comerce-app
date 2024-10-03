@@ -4,14 +4,17 @@ using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 namespace API.Controllers;
 [ApiController]
 [Route("/api/[controller]")]
 public class ProductsController(IUnitOfWork unit) : BaseApiController
 {
+    [Cache(600)]
     [HttpGet]
     public async Task<ActionResult<Pagination<Product>>> GetBySpec(
             [FromQuery] ProductSpecParams specParams) 
@@ -20,6 +23,7 @@ public class ProductsController(IUnitOfWork unit) : BaseApiController
         
         return await  CreatePagedResult(unit.Repository<Product>(),spec,specParams.PageIndex,specParams.PageSize);
     }
+    [Cache(600)]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Product>>? GetProductById(int id) 
     {
@@ -27,6 +31,7 @@ public class ProductsController(IUnitOfWork unit) : BaseApiController
         if (product == null) return NotFound();
         return product;
     }
+    [Cache(6000)]
     [HttpGet("brands")] 
     public async Task<ActionResult<IReadOnlyList<string>>?> GetBrandList() 
     {
@@ -35,6 +40,7 @@ public class ProductsController(IUnitOfWork unit) : BaseApiController
         if (brands == null) return NotFound();
         return Ok(brands);
     }
+    [Cache(6000)]
     [HttpGet("types")]
     public async Task<ActionResult<IReadOnlyList<string>>?> GetTypeList() {
         var spec = new TypeListSpecification();
@@ -42,18 +48,30 @@ public class ProductsController(IUnitOfWork unit) : BaseApiController
         if (types == null) return NotFound();
         return Ok(types);
     } 
+
+
+    [InvalidateCache("api/products|")]
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult<Product>> CreateProduct(Product product) 
     {
         unit.Repository<Product>().Add(product);
         return await unit.Complete()? product : BadRequest("Cannot create this product");
     }
+
+
+    [InvalidateCache("api/products|")]
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id:int}")]
     public async Task<ActionResult<Product>> UpdateProduct(int id, Product product) {
         if (product.Id != id || unit.Repository<Product>().IsExist(id)) return BadRequest("Cannot update this product");
         unit.Repository<Product>().Update(product);
         return await unit.Complete()? product : BadRequest("Cannot create this product");
     }
+
+
+    [InvalidateCache("api/products|")]
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteProduct(int id) 
     {

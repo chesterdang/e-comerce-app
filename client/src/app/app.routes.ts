@@ -15,17 +15,19 @@ import { CheckoutSuccessComponent } from './features/checkout/checkout-success/c
 import { OrderComponent } from './features/order/order.component';
 import { OrderDetailComponent } from './features/order/order-detail/order-detail.component';
 import { orderCompleteGuard } from './core/guard/order-complete.guard';
+import { AdminComponent } from './features/admin/admin.component';
+import { adminGuard } from './core/guard/admin.guard';
 export const routes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'shop', component: ShopComponent},
     {path: 'shop/:id', component: ProductDetailsComponent},
-    {path: 'account/login', component: LoginComponent},
-    {path: 'account/register', component: RegisterComponent},
+    {path: 'account', loadChildren: () => import('./features/account/routes')
+        .then(r => r.accountRoutes)},
     {path: 'cart', component: CartComponent},
-    {path: 'checkout', component: CheckoutComponent, canActivate: [authGuard,emptyGuard]},
-    {path: 'checkout/success', component: CheckoutSuccessComponent, canActivate: [authGuard, orderCompleteGuard]},
-    {path: 'order', component: OrderComponent, canActivate: [authGuard]},
-    {path: 'order/:id', component: OrderDetailComponent, canActivate: [authGuard]},
+    {path: 'checkout', loadChildren: () => import('./features/checkout/routes')
+        .then( r => r.checkoutRoutes) },
+    {path: 'order', loadChildren: () => import('./features/order/routes')
+        .then(r => r.orderRoutes)},
     {path: 'test-error', component: TestErrorComponent},
     {path: 'not-found', component: NotFoundComponent},
     {path: 'server-error', component: ServerErrorComponent},

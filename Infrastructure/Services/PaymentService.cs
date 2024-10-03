@@ -10,12 +10,20 @@ using Stripe;
 
 namespace Infrastructure.Services
 {
-    public class PaymentService(IConfiguration config, IShoppingCartService cartService,
-        IUnitOfWork unit) : IPaymentService
+    public class PaymentService : IPaymentService
     {
+        private readonly IShoppingCartService cartService;
+        private readonly IUnitOfWork unit;
+
+        public PaymentService(IConfiguration config, IShoppingCartService cartService,
+        IUnitOfWork unit)
+        {
+            this.cartService = cartService;
+            this.unit = unit;
+            StripeConfiguration.ApiKey = config["StripeSettings:SecrectKey"];
+        }
         public async Task<ShoppingCart?> CreateOrUpdatePaymentIntent(string cartId)
         {
-            StripeConfiguration.ApiKey = config["StripeSettings:SecrectKey"];
             var cart = await cartService.GetCartAsync(cartId);
             if (cart == null) return null;
             var shippingPrice = 0m;
@@ -63,6 +71,17 @@ namespace Infrastructure.Services
             await cartService.SetCartAsync(cart);
             return cart;
             
+        }
+
+        public async Task<string> RefundPayment(string paymentIntentId)
+        {
+            var refundOptions = new RefundCreateOptions {
+                PaymentIntent = paymentIntentId
+            };
+
+            var refundService = new RefundService();
+            var result = await refundService.CreateAsync(refundOptions);
+            return result.Status;
         }
     }
 }

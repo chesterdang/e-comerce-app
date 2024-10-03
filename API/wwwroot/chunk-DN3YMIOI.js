@@ -1,0 +1,1 @@
+import{a as t,b as e,c as o,d as c,e as m}from"./chunk-TE7TKPDL.js";import"./chunk-7F225I6S.js";import"./chunk-DHTIDUZ4.js";import"./chunk-VIE6AABR.js";var h=[{path:"checkout",component:t,canActivate:[o,c]},{path:"checkout/success",component:e,canActivate:[o,m]}];export{h as checkoutRoutes};

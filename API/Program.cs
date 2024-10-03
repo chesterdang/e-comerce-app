@@ -24,7 +24,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(config => {
     return ConnectionMultiplexer.Connect(configuration);
 });
 builder.Services.AddSingleton<IShoppingCartService,ShoppingCartService>();
-
+builder.Services.AddSingleton<IResponseCachesService,ResponseCacheService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

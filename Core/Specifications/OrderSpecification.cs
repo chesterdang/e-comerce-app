@@ -36,7 +36,7 @@ namespace Core.Specifications
         {
             AddInclude("OrderItems");
             AddInclude("DeliveryMethod");
-            ApplyPaging(specParams.PageSize * (specParams.PageSize -1), specParams.PageSize);
+            ApplyPaging(specParams.PageSize , specParams.PageSize * (specParams.PageIndex-1));
             AddOrerByDescending(x => x.OrderDate);
 
         }
