@@ -290,13 +290,13 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a070099c-4aae-49be-a83d-79b29516cdf9",
+                            Id = "e5ba5508-cd07-46bb-9965-26288e7032b4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "93470d23-324e-4afb-85be-d910f4ce1832",
+                            Id = "102e9477-65a1-44a6-ab7a-fae110fd2fbe",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
